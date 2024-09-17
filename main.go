@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
 type Card struct {
 	Suit  string
 	Value string
@@ -23,4 +29,27 @@ func NewDeck() Deck {
 	}
 
 	return deck
+}
+
+func (d Deck) Shuffle() {
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(d), func(i, j int) {
+		d[i], d[j] = d[j], d[i]
+	})
+}
+
+func main() {
+	deck := NewDeck()
+
+	fmt.Println("Original deck:")
+	for _, card := range deck {
+		fmt.Println(card)
+	}
+
+	deck.Shuffle()
+
+	fmt.Println("\nShuffled deck:")
+	for _, card := range deck {
+		fmt.Println(card)
+	}
 }
